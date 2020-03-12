@@ -96,6 +96,6 @@ function sendMessage(messageContent) {
 // c.queue("https://www.baidu.com");
 
 // 定时任务 每天9点和21点执行一次
-cron.schedule("* * 9,15,21 * * *", () => {
+cron.schedule("* 9,15,21 * * *", () => {
   c.queue("https://bwh88.net/cart.php");
 });
