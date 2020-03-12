@@ -89,6 +89,5 @@ function sendMessage(messageContent) {
 
 // 定时任务 每天9点和21点执行一次
 cron.schedule("0 */4 * * *", () => {
-  // c.queue("https://bwh88.net/cart.php");
-  c.queue("https://www.baidu.com");
+  c.queue("https://bwh88.net/cart.php");
 });
