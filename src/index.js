@@ -26,20 +26,13 @@ const c = new Crawler({
         "td:contains('SPECIAL 10G KVM PROMO V5 - LOS ANGELES - CN2 GIA LIMITED EDITION')"
       ).has("em");
 
-      if (outStockItems.length > 0) {
-        // 写日志
-        const itemText = outStockItems.text();
-        // console.log("Items em are: ", itemText);
-        writeLog(itemText);
-        sendMessage(itemText);
-      } else {
-        // 走这里证明有库存了
-
-        const notiMessage = "搬瓦工终于有货了，快来抢啊！！！";
-
-        writeLog(notiMessage);
-        sendMessage(notiMessage);
-      }
+      // 写日志
+      const itemText =
+        outStockItems.length > 0
+          ? outStockItems.text()
+          : "搬瓦工终于有货了，快来抢啊！！！";
+      writeLog(itemText);
+      sendMessage(itemText);
     }
     done();
   }
@@ -86,16 +79,16 @@ function sendMessage(messageContent) {
     }
   })
     .then(res => {
-      console.log("sendMessage -> res", res);
+      writeLog("Send discord message success");
     })
     .catch(err => {
       console.log("sendMessage -> err", err);
+      writeLog(`Send discord message error${err}`);
     });
 }
 
-// c.queue("https://www.baidu.com");
-
 // 定时任务 每天9点和21点执行一次
-cron.schedule("* 9,15,21 * * *", () => {
-  c.queue("https://bwh88.net/cart.php");
+cron.schedule("0 */4 * * *", () => {
+  // c.queue("https://bwh88.net/cart.php");
+  c.queue("https://www.baidu.com");
 });
