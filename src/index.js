@@ -29,12 +29,16 @@ const c = new Crawler({
       if (outStockItems.length > 0) {
         // 写日志
         const itemText = outStockItems.text();
-        console.log("Items em are: ", itemText);
+        // console.log("Items em are: ", itemText);
         writeLog(itemText);
+        sendMessage(itemText);
       } else {
         // 走这里证明有库存了
-        writeLog("有库存了，快来抢购");
-        sendMessage();
+
+        const notiMessage = "搬瓦工终于有货了，快来抢啊！！！";
+
+        writeLog(notiMessage);
+        sendMessage(notiMessage);
       }
     }
     done();
@@ -70,12 +74,12 @@ function writeLog(logText) {
  * 发送消息
  *
  */
-function sendMessage() {
+function sendMessage(messageContent) {
   axios({
     method: "POST",
     url: `${WEBHOOK_URL}${WEBHOOK_ID}/${WEBHOOK_TOKEN}`,
     data: {
-      content: "搬瓦工终于有货了，快来抢啊！！！"
+      content: messageContent
     },
     headers: {
       "Content-Type": "application/json"
@@ -92,6 +96,6 @@ function sendMessage() {
 // c.queue("https://www.baidu.com");
 
 // 定时任务 每天9点和21点执行一次
-cron.schedule("* * 9,21 * * *", () => {
+cron.schedule("* * 9,15,21 * * *", () => {
   c.queue("https://bwh88.net/cart.php");
 });
