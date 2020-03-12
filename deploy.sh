@@ -1,7 +1,7 @@
 export BANDWAGON_DATA_DIR=~/banwangon-data
 
-mkdir -p BANDWAGON_DATA_DIR
-cd BANDWAGON_DATA_DIR
+mkdir -p "$BANDWAGON_DATA_DIR"
+cd $BANDWAGON_DATA_DIR
 mkdir public
 cd public
 touch project.log
