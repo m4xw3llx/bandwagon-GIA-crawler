@@ -12,6 +12,9 @@ const WEBHOOK_URL = "https://discordapp.com/api/webhooks/";
 const WEBHOOK_ID = "687255557689966621";
 const WEBHOOK_TOKEN =
   "3Vll1V_ZBnfKCZuuibaFK4FFaEvopESLug1adww0_i9FsOAzBmyI_R14RL-3JrkDZJ2-";
+const VPS_10G =
+  "SPECIAL 10G KVM PROMO V5 - LOS ANGELES - CN2 GIA LIMITED EDITION";
+const VPS_20G = "SPECIAL 20G KVM PROMO V5 - LOS ANGELES - CN2 GIA ECOMMERCE";
 
 // 初始化爬虫
 const c = new Crawler({
@@ -20,23 +23,26 @@ const c = new Crawler({
     if (error) {
       writeLog("Web crawler run error");
     } else {
-      const $ = res.$;
-
-      const outStockItems = $(
-        "td:contains('SPECIAL 10G KVM PROMO V5 - LOS ANGELES - CN2 GIA LIMITED EDITION')"
-      ).has("em");
-
-      // 写日志
-      const itemText =
-        outStockItems.length > 0
-          ? outStockItems.text()
-          : "搬瓦工终于有货了，快来抢啊！！！";
-      writeLog(itemText);
-      sendMessage(itemText);
+      checkVPS(VPS_10G, res.$);
+      checkVPS(VPS_20G, res.$);
     }
     done();
   }
 });
+
+/**
+ *
+ * @param {*} vpsType vps title
+ * @param {*} data $
+ */
+function checkVPS(vpsType, data) {
+  const outStockItems = data(`td:contains(${vpsType})`).has("em");
+  const vpsText =
+    outStockItems.length > 0 ? vpsType : `${vpsType}有库存了，快来抢啊`;
+
+  writeLog(vpsText);
+  sendMessage(vpsText);
+}
 
 /**
  * 写日志
